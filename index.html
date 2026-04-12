@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Open Hours BETA V12.9</title>
+<title>Open Hours BETA V14.3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -71,13 +71,16 @@ header::after{
 /* FILTER BAR */
 .fb{
   flex-shrink:0;
-  display:flex;align-items:center;gap:7px;
+  display:flex;align-items:center;gap:0;
   padding:5px 18px;
   background:var(--s1);
   border-bottom:1px solid var(--bd);
   overflow-x:auto;scrollbar-width:none;
 }
 .fb::-webkit-scrollbar{display:none;}
+.fb-row1{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.fb-row2{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.fb-row1::after{content:'';display:block;width:1px;height:16px;background:var(--bh);margin:0 10px;flex-shrink:0;}
 .fl{font-family:var(--fm);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);flex-shrink:0;}
 .fd{width:1px;height:14px;background:var(--bh);flex-shrink:0;margin:0 3px;}
 .pill{
@@ -263,6 +266,51 @@ header::after{
 
 .leaflet-marker-icon.popup-open .mk-lbl{opacity:0;transition:opacity .15s;}
 .leaflet-marker-icon.popup-open .mk-dot{box-shadow:0 0 0 3px rgba(255,255,255,.15),0 0 12px var(--dot-c,#00d2ff);}
+
+/* ── MOBILE (≤768px) ─────────────────────────────────────────── */
+/* Desktop: restore #cp */#cp{display:flex;gap:7px;flex-wrap:nowrap;}
+@media(max-width:768px){
+  /* Header: tighten up */
+  header{padding:5px 10px;gap:8px;}
+  .logo-text{display:none;}
+  #si{width:100px;font-size:9px;}
+  #si::placeholder{font-size:9px;}
+  .db{display:none;}
+  .vbadge{display:none;}
+  .gsnotis{font-size:9px;padding:2px 7px;}
+
+  /* Filterbar: two rows, each wraps onto new lines */
+  .fb{padding:0;gap:0;flex-direction:column;overflow:visible;height:auto;}
+  .fb .fd{display:none;}
+  .fb .fl{display:none;}
+  .fb-row1{display:flex;flex-wrap:wrap;gap:5px;padding:4px 10px;}
+  .fb-row1::after{display:none;}
+  .fb-row2{display:flex;flex-wrap:wrap;gap:5px;padding:4px 10px;align-items:center;}
+  .fb-row2 #cp{display:flex!important;flex-wrap:wrap;gap:5px;}
+  .pill{font-size:8px;padding:3px 9px;letter-spacing:.05em;white-space:nowrap;flex-shrink:0;}
+
+  /* FABs: move up to avoid browser bottom UI bar */
+  .fab-group{bottom:70px;left:10px;gap:8px;}
+  .fab{width:42px;height:42px;}
+  .fab#transitBtn::before{font-size:17px;}
+  .fab#transitBtn::after{bottom:8px;width:24px;}
+  .fab#editBtn::before{font-size:17px;}
+
+  /* Transit panel: full width on mobile */
+  #transitPanel{width:100%!important;max-width:100%!important;left:0!important;right:0!important;border-left:none!important;}
+
+  /* Popups: allow more width */
+  .leaflet-popup-content-wrapper{max-width:92vw!important;}
+  .pi{min-width:0;max-width:85vw;}
+
+  /* Zoom controls: reposition */
+  .leaflet-bottom.leaflet-right{bottom:70px;}
+}
+
+@media(max-width:400px){
+  #si{width:70px;}
+  .gsnotis{display:none;}
+}
 </style>
 
 
@@ -275,6 +323,20 @@ header::after{
 
 
 
+
+
+
+
+
+
+
+
+
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIk9wZW4gSG91cnMiLCAic2hvcnRfbmFtZSI6ICJPcGVuIEhvdXJzIiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBhMGEiLCAidGhlbWVfY29sb3IiOiAiIzBhMGEwYSIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsICJpY29ucyI6IFt7InNyYyI6ICJpY29uLTE5Mi5wbmciLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9LCB7InNyYyI6ICJpY29uLTUxMi5wbmciLCAic2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9XX0=">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Open Hours">
 </head>
 <body>
 <header>
@@ -286,29 +348,23 @@ header::after{
     <div><span class="lt">OPEN HOURS</span><span class="ls">REALTID · ÖPPETTIDER</span></div>
   </div>
   <div class="db" id="db">–</div>
-  <div class="vbadge">BETA V12.9</div>
+  <div class="vbadge">BETA V13.8</div>
   <div class="gsnotis" id="gsNotis" style="display:none"></div>
   <div class="hr">
-    <div class="sw">
-      <svg class="si" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="si" placeholder="SÖK_DESTINATION..." autocomplete="off">
-    </div>
-    <button class="hbtn" id="geoBtn">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>GPS
-    </button>
   </div>
 </header>
 
 <div class="fb">
-  <span class="fl">STATUS//</span>
-  <button class="pill active" data-status="all">Alla</button>
-  <button class="pill" data-status="open">Öppet nu</button>
-  <button class="pill" data-status="closed">Stängt</button>
-  <div class="fd"></div>
-  <span class="fl">TYP//</span>
-  <div id="cp" style="display:flex;gap:7px;flex-wrap:nowrap;"></div>
-  <div class="fd"></div>
-  <button class="pill" id="transitToggleBtn" style="--cc:#00d2ff">🚇 KOLLEKTIVTRAFIK</button>
+  <div class="fb-row1">
+    <button class="pill active" data-status="all">Alla</button>
+    <button class="pill" data-status="open">Öppet nu</button>
+    <button class="pill" data-status="closed">Stängt</button>
+  </div>
+  <div class="fb-row2">
+    <div id="cp">
+      <button class="pill" id="transitToggleBtn" style="--cc:#00d2ff">🚇 KOLLEKTIVTRAFIK</button>
+    </div>
+  </div>
 </div>
 
 <div id="mapwrap">
@@ -353,47 +409,56 @@ header::after{
 
 
 
+
+
+
+
+
+
+
+
+
 const S = [
   {n:"ICA Maxi Supermarket Solna",c:"Livsmedel",a:"Svetsarv\u00e4gen 18, Solna",lat:59.3586,lng:17.980749,h:{0:["06:00","23:00"],1:["06:00","23:00"],2:["06:00","23:00"],3:["06:00","23:00"],4:["06:00","23:00"],5:["06:00","23:00"],6:["06:00","23:00"]}},
   {n:"Hemk\u00f6p Huvudsta",c:"Livsmedel",a:"Storgatan 62, Solna",lat:59.349891,lng:17.985976,h:{0:["07:00","21:00"],1:["07:00","21:00"],2:["07:00","21:00"],3:["07:00","21:00"],4:["07:00","21:00"],5:["08:00","21:00"],6:["08:00","21:00"]}},
   {n:"Apoteket Ulven Huvudsta",c:"Apotek",a:"Storgatan 70, Solna",lat:59.350107,lng:17.985748,h:{0:null,1:["09:00","19:00"],2:["09:00","19:00"],3:["09:00","19:00"],4:["09:00","19:00"],5:["09:00","19:00"],6:["10:00","15:00"]}},
   {n:"Pizzeria Lejon Huvudsta",c:"Bar & Restaurang",a:"Storgatan 57, Solna",lat:59.350343,lng:17.985893,h:{0:["12:00","22:00"],1:["11:00","23:00"],2:["11:00","23:00"],3:["11:00","23:00"],4:["11:00","23:00"],5:["11:00","23:00"],6:["12:00","23:00"]}},
-  {n:"Kiosk & Livs i Solna",c:"Butik",a:"Storgatan 52, Solna",lat:59.351484,lng:17.981915,h:{0:["11:00","18:00"],1:["09:00","19:00"],2:["09:00","19:00"],3:["09:00","19:00"],4:["09:00","19:00"],5:["09:00","19:00"],6:["11:00","18:00"]}},
-  {n:"Direkten Huvudsta",c:"Butik",a:"Storgatan 60, Solna",lat:59.350128,lng:17.986746,h:{0:["12:00","17:00"],1:["09:00","21:00"],2:["09:00","21:00"],3:["09:00","21:00"],4:["09:00","20:00"],5:["09:00","20:00"],6:["11:00","20:00"]}},
+  {n:"Kiosk & Livs i Solna",c:"Butiker",a:"Storgatan 52, Solna",lat:59.351484,lng:17.981915,h:{0:["11:00","18:00"],1:["09:00","19:00"],2:["09:00","19:00"],3:["09:00","19:00"],4:["09:00","19:00"],5:["09:00","19:00"],6:["11:00","18:00"]}},
+  {n:"Direkten Huvudsta",c:"Butiker",a:"Storgatan 60, Solna",lat:59.350128,lng:17.986746,h:{0:["12:00","17:00"],1:["09:00","21:00"],2:["09:00","21:00"],3:["09:00","21:00"],4:["09:00","20:00"],5:["09:00","20:00"],6:["11:00","20:00"]}},
   {n:"Burgers & Beer Sundbyberg",c:"Bar & Restaurang",a:"Landsv\u00e4gen 40, Sundbyberg",lat:59.364865,lng:17.97389,h:{0:["12:00","22:00"],1:["14:00","22:00"],2:["14:00","22:00"],3:["11:00","22:00"],4:["14:00","22:00"],5:["11:00","01:00"],6:["12:00","01:00"]}},
-  {n:"Normal Sundbyberg",c:"Butik",a:"Landsv\u00e4gen 43, Sundbyberg",lat:59.361655,lng:17.966407,h:{0:["10:00","18:00"],1:["10:00","20:00"],2:["10:00","20:00"],3:["10:00","20:00"],4:["10:00","20:00"],5:["10:00","20:00"],6:["10:00","18:00"]}},
+  {n:"Normal Sundbyberg",c:"Butiker",a:"Landsv\u00e4gen 43, Sundbyberg",lat:59.361655,lng:17.966407,h:{0:["10:00","18:00"],1:["10:00","20:00"],2:["10:00","20:00"],3:["10:00","20:00"],4:["10:00","20:00"],5:["10:00","20:00"],6:["10:00","18:00"]}},
   {n:"Kjell & Company Sundbyberg",c:"Elektronik",a:"Landsv\u00e4gen 47, Sundbyberg",lat:59.360968,lng:17.969497,h:{0:["11:00","16:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
   {n:"ENCORE Music Club",c:"Bar & Restaurang",a:"Landsv\u00e4gen 49, Sundbyberg",lat:59.361256,lng:17.967914,h:"varies"},
   {n:"Systembolaget Sundbyberg",c:"Systembolaget",a:"Landsv\u00e4gen 53B, Sundbyberg",lat:59.361108,lng:17.968322,h:{0:null,1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","15:00"]}},
   {n:"Subway Sundbyberg",c:"Bar & Restaurang",a:"Landsv\u00e4gen 55, Sundbyberg",lat:59.361362,lng:17.967099,h:{0:["09:00","23:00"],1:["09:00","23:00"],2:["09:00","23:00"],3:["09:00","23:00"],4:["09:00","23:00"],5:["09:00","23:00"],6:["09:00","23:00"]}},
-  {n:"Vapekompaniet Sundbyberg",c:"Butik",a:"Landsv\u00e4gen 61, Sundbyberg",lat:59.364558,lng:17.965823,h:{0:null,1:["09:00","19:00"],2:["09:00","19:00"],3:["09:00","19:00"],4:["09:00","19:00"],5:["09:00","19:00"],6:["10:00","17:00"]}},
+  {n:"Vapekompaniet Sundbyberg",c:"Butiker",a:"Landsv\u00e4gen 61, Sundbyberg",lat:59.364558,lng:17.965823,h:{0:null,1:["09:00","19:00"],2:["09:00","19:00"],3:["09:00","19:00"],4:["09:00","19:00"],5:["09:00","19:00"],6:["10:00","17:00"]}},
   {n:"DOZ Apotek Sundbyberg",c:"Apotek",a:"Esplanaden 1, Sundbyberg",lat:59.362109,lng:17.964124,h:{0:["11:00","16:00"],1:["09:00","19:00"],2:["09:00","19:00"],3:["09:00","19:00"],4:["09:00","19:00"],5:["09:00","19:00"],6:["10:00","16:00"]}},
   {n:"The Public Sundbyberg",c:"Bar & Restaurang",a:"Esplanaden 10, Sundbyberg",lat:59.36198,lng:17.965516,h:{0:["12:00","23:00"],1:["10:00","23:00"],2:["10:00","23:00"],3:["10:00","01:00"],4:["10:00","01:00"],5:["10:00","02:00"],6:["11:00","02:00"]}},
   {n:"Holy Greens Sundbyberg",c:"Bar & Restaurang",a:"Esplanaden 10, Sundbyberg",lat:59.362297,lng:17.969261,h:{0:["11:00","18:00"],1:["10:30","20:00"],2:["10:30","20:00"],3:["10:30","20:00"],4:["10:30","20:00"],5:["10:30","20:00"],6:["11:00","18:00"]}},
-  {n:"Myrorna Sundbyberg",c:"Butik",a:"Sturegatan 36, Sundbyberg",lat:59.363946,lng:17.964588,h:{0:["11:00","17:00"],1:["10:00","18:00"],2:["10:00","18:00"],3:["10:00","18:00"],4:["10:00","18:00"],5:["10:00","18:00"],6:["10:00","17:00"]}},
+  {n:"Myrorna Sundbyberg",c:"Butiker",a:"Sturegatan 36, Sundbyberg",lat:59.363946,lng:17.964588,h:{0:["11:00","17:00"],1:["10:00","18:00"],2:["10:00","18:00"],3:["10:00","18:00"],4:["10:00","18:00"],5:["10:00","18:00"],6:["10:00","17:00"]}},
   {n:"The Blues Pub Sundbyberg",c:"Bar & Restaurang",a:"Sturegatan 22, Sundbyberg",lat:59.362431,lng:17.967121,h:{0:["14:00","01:00"],1:["16:00","01:00"],2:["16:00","01:00"],3:["16:00","01:00"],4:["16:00","01:00"],5:["14:00","03:00"],6:["14:00","03:00"]}},
   {n:"The Station Sundbyberg",c:"Bar & Restaurang",a:"Stationsgatan 5, Sundbyberg",lat:59.361253,lng:17.966112,h:{0:["12:00","01:00"],1:["14:00","01:00"],2:["14:00","01:00"],3:["14:00","01:00"],4:["14:00","01:00"],5:["14:00","01:00"],6:["11:00","01:00"]}},
   {n:"Apotek Hj\u00e4rtat Stationshuset",c:"Apotek",a:"Stationsgatan 9, Sundbyberg",lat:59.360706,lng:17.97042,h:{0:["11:00","17:00"],1:["08:30","19:00"],2:["08:30","19:00"],3:["08:30","19:00"],4:["08:30","19:00"],5:["08:30","19:00"],6:["10:00","17:00"]}},
-  {n:"Sundbybergs Simhall & Gym",c:"Sport & Bad",a:"Bergaliden 1, Sundbyberg",lat:59.3687925,lng:17.9671365,h:{0:["09:00","17:00"],1:["06:30","21:00"],2:["06:30","21:00"],3:["06:30","21:00"],4:["06:30","21:00"],5:["06:30","20:00"],6:["09:00","17:00"]}},
+  {n:"Sundbybergs Simhall & Gym",c:"Övrigt",a:"Bergaliden 1, Sundbyberg",lat:59.3687925,lng:17.9671365,h:{0:["09:00","17:00"],1:["06:30","21:00"],2:["06:30","21:00"],3:["06:30","21:00"],4:["06:30","21:00"],5:["06:30","20:00"],6:["09:00","17:00"]}},
   {n:"Lidl Sundbyberg",c:"Livsmedel",a:"Hallonbergsplan 16, Sundbyberg",lat:59.361264,lng:17.969346,h:{0:["08:00","21:00"],1:["08:00","21:00"],2:["08:00","21:00"],3:["08:00","21:00"],4:["08:00","21:00"],5:["08:00","21:00"],6:["08:00","21:00"]}},
-  {n:"Bauhaus Bromma",c:"Hem & Bygg",a:"Ulvsundav\u00e4gen 185, Bromma",lat:59.354502,lng:17.961617,h:{0:["09:00","18:00"],1:["06:00","20:00"],2:["06:00","20:00"],3:["06:00","20:00"],4:["06:00","20:00"],5:["06:00","20:00"],6:["09:00","18:00"]}},
+  {n:"Bauhaus Bromma",c:"Butiker",a:"Ulvsundav\u00e4gen 185, Bromma",lat:59.354502,lng:17.961617,h:{0:["09:00","18:00"],1:["06:00","20:00"],2:["06:00","20:00"],3:["06:00","20:00"],4:["06:00","20:00"],5:["06:00","20:00"],6:["09:00","18:00"]}},
   {n:"Systembolaget Bromma Blocks",c:"Systembolaget",a:"Ulvsundav\u00e4gen 191A, Bromma",lat:59.355864,lng:17.954536,h:{0:null,1:["10:00","20:00"],2:["10:00","20:00"],3:["10:00","20:00"],4:["10:00","20:00"],5:["10:00","20:00"],6:["10:00","15:00"]}},
-  {n:"Rusta Bromma Blocks",c:"Hem & Bygg",a:"Ulvsundav\u00e4gen 189, Bromma",lat:59.356712,lng:17.951821,h:{0:["10:00","19:00"],1:["10:00","20:00"],2:["10:00","20:00"],3:["10:00","20:00"],4:["10:00","20:00"],5:["10:00","20:00"],6:["10:00","19:00"]}},
+  {n:"Rusta Bromma Blocks",c:"Butiker",a:"Ulvsundav\u00e4gen 189, Bromma",lat:59.356712,lng:17.951821,h:{0:["10:00","19:00"],1:["10:00","20:00"],2:["10:00","20:00"],3:["10:00","20:00"],4:["10:00","20:00"],5:["10:00","20:00"],6:["10:00","19:00"]}},
   {n:"Net on Net Bromma",c:"Elektronik",a:"Ulvsundav\u00e4gen 189, Bromma",lat:59.353277,lng:17.956402,h:{0:["10:00","18:00"],1:["10:00","20:00"],2:["10:00","20:00"],3:["10:00","20:00"],4:["10:00","20:00"],5:["10:00","20:00"],6:["10:00","18:00"]}},
-  {n:"Jula Bromma Blocks",c:"Hem & Bygg",a:"Ulvsundav\u00e4gen 187, Bromma",lat:59.357013,lng:17.950448,h:{0:["10:00","18:00"],1:["07:00","20:00"],2:["07:00","20:00"],3:["07:00","20:00"],4:["07:00","20:00"],5:["07:00","20:00"],6:["09:00","18:00"]}},
-  {n:"Clas Ohlson Bromma Blocks",c:"Hem & Bygg",a:"Ulvsundav\u00e4gen 189B, Bromma",lat:59.355416,lng:17.956842,h:{0:["10:00","18:00"],1:["10:00","20:00"],2:["10:00","20:00"],3:["10:00","20:00"],4:["10:00","20:00"],5:["10:00","20:00"],6:["10:00","18:00"]}},
+  {n:"Jula Bromma Blocks",c:"Butiker",a:"Ulvsundav\u00e4gen 187, Bromma",lat:59.357013,lng:17.950448,h:{0:["10:00","18:00"],1:["07:00","20:00"],2:["07:00","20:00"],3:["07:00","20:00"],4:["07:00","20:00"],5:["07:00","20:00"],6:["09:00","18:00"]}},
+  {n:"Clas Ohlson Bromma Blocks",c:"Butiker",a:"Ulvsundav\u00e4gen 189B, Bromma",lat:59.355416,lng:17.956842,h:{0:["10:00","18:00"],1:["10:00","20:00"],2:["10:00","20:00"],3:["10:00","20:00"],4:["10:00","20:00"],5:["10:00","20:00"],6:["10:00","18:00"]}},
   {n:"Lidl Solna Centrum",c:"Livsmedel",a:"Solnav\u00e4gen 13, Solna",lat:59.359511,lng:18.000777,h:{0:["08:00","21:00"],1:["08:00","21:00"],2:["08:00","21:00"],3:["08:00","21:00"],4:["08:00","21:00"],5:["08:00","21:00"],6:["08:00","21:00"]}},
   {n:"Asian Food Market Solna",c:"Livsmedel",a:"Solnav\u00e4gen 13, Solna",lat:59.358732,lng:18.001426,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
-  {n:"Swedbank Solna Centrum",c:"Butik",a:"Solnav\u00e4gen 13, Solna",lat:59.359101,lng:18.000498,h:{0:null,1:["10:00","18:00"],2:["10:00","18:00"],3:["10:00","18:00"],4:["10:00","18:00"],5:["10:00","18:00"],6:null}},
+  {n:"Swedbank Solna Centrum",c:"Butiker",a:"Solnav\u00e4gen 13, Solna",lat:59.359101,lng:18.000498,h:{0:null,1:["10:00","18:00"],2:["10:00","18:00"],3:["10:00","18:00"],4:["10:00","18:00"],5:["10:00","18:00"],6:null}},
   {n:"Webhallen Solna Centrum",c:"Elektronik",a:"Solnav\u00e4gen 13, Solna",lat:59.358918,lng:18.00075,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
   {n:"Ritz Grill & Bistro Solna",c:"Bar & Restaurang",a:"Solnav\u00e4gen 13, Solna",lat:59.360922,lng:17.997971,h:{0:["12:00","20:00"],1:["10:00","21:00"],2:["10:00","21:00"],3:["10:00","21:00"],4:["10:00","21:00"],5:["10:00","21:00"],6:["11:00","20:00"]}},
   {n:"Kjell & Company Solna Centrum",c:"Elektronik",a:"Solnav\u00e4gen 13, Solna",lat:59.36058,lng:17.999307,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
   {n:"Systembolaget Solna Centrum",c:"Systembolaget",a:"Solnav\u00e4gen 13, Solna",lat:59.360304,lng:17.999833,h:{0:null,1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","15:00"]}},
-  {n:"Arken Zoo Solna Centrum",c:"Butik",a:"Solnav\u00e4gen 13, Solna",lat:59.359856,lng:18.000841,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
-  {n:"Solna Spel & Tobak",c:"Butik",a:"Solnav\u00e4gen 13, Solna",lat:59.36005,lng:18.000315,h:{0:["11:00","16:00"],1:["09:00","19:00"],2:["09:00","19:00"],3:["09:00","19:00"],4:["09:00","19:00"],5:["09:00","19:00"],6:["10:00","17:00"]}},
-  {n:"New Yorker Solna Centrum",c:"Butik",a:"Solnav\u00e4gen 13, Solna",lat:59.359331,lng:18.001345,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
-  {n:"Clas Ohlson Solna Centrum",c:"Hem & Bygg",a:"Solnav\u00e4gen 13, Solna",lat:59.359134,lng:18.002139,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
-  {n:"Rusta Solna Centrum",c:"Hem & Bygg",a:"Solnav\u00e4gen 13, Solna",lat:59.358874,lng:18.002188,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","18:00"]}},
+  {n:"Arken Zoo Solna Centrum",c:"Butiker",a:"Solnav\u00e4gen 13, Solna",lat:59.359856,lng:18.000841,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
+  {n:"Solna Spel & Tobak",c:"Butiker",a:"Solnav\u00e4gen 13, Solna",lat:59.36005,lng:18.000315,h:{0:["11:00","16:00"],1:["09:00","19:00"],2:["09:00","19:00"],3:["09:00","19:00"],4:["09:00","19:00"],5:["09:00","19:00"],6:["10:00","17:00"]}},
+  {n:"New Yorker Solna Centrum",c:"Butiker",a:"Solnav\u00e4gen 13, Solna",lat:59.359331,lng:18.001345,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
+  {n:"Clas Ohlson Solna Centrum",c:"Butiker",a:"Solnav\u00e4gen 13, Solna",lat:59.359134,lng:18.002139,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","17:00"]}},
+  {n:"Rusta Solna Centrum",c:"Butiker",a:"Solnav\u00e4gen 13, Solna",lat:59.358874,lng:18.002188,h:{0:["11:00","17:00"],1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","18:00"]}},
   {n:"MAX Solna",c:"Bar & Restaurang",a:"Huvudstagatan 2A, Solna",lat:59.360191,lng:17.994039,h:{0:["09:00","04:00"],1:["09:00","04:00"],2:["09:00","04:00"],3:["09:00","04:00"],4:["09:00","04:00"],5:["09:00","06:00"],6:["09:00","06:00"]}},
   {n:"Maxi ICA Lindhagen",c:"Livsmedel",a:"Lindhagensgatan 126, Stockholm",lat:59.3380971,lng:18.0077055,h:{0:["08:00","22:00"],1:["08:00","22:00"],2:["08:00","22:00"],3:["08:00","22:00"],4:["08:00","22:00"],5:["08:00","22:00"],6:["08:00","22:00"]}},
   {n:"Systembolaget Lindhagen",c:"Systembolaget",a:"Lindhagensgatan 118, Stockholm",lat:59.3372813,lng:18.0093244,h:{0:null,1:["10:00","19:00"],2:["10:00","19:00"],3:["10:00","19:00"],4:["10:00","19:00"],5:["10:00","19:00"],6:["10:00","15:00"]}},
@@ -408,9 +473,7 @@ const CAT = {
   "Apotek":           {c:"#00d2ff",e:"💊"},
   "Systembolaget":    {c:"#ff3c5a",e:"🍷"},
   "Elektronik":       {c:"#00bfff",e:"🔌"},
-  "Hem & Bygg":       {c:"#ff8f00",e:"🔨"},
-  "Butik":            {c:"#f5d800",e:"🛍️"},
-  "Sport & Bad":      {c:"#ff69b4",e:"🏊"},
+  "Butiker":          {c:"#f5d800",e:"🛍️"},
   "Övrigt":           {c:"#aaaaaa",e:"🗑️"},
 };
 const cc = k => (CAT[k]||{c:"#aaaaaa"}).c;
@@ -426,7 +489,7 @@ Object.keys(CAT).forEach(k => {
   b.className="pill"; b.dataset.cat=k;
   b.style.setProperty("--cc", cc(k));
   b.textContent = k.toUpperCase();
-  cpEl.appendChild(b);
+  cpEl.insertBefore(b, document.getElementById("transitToggleBtn"));
 });
 
 function isoWeek(d) {
@@ -438,7 +501,7 @@ function isoWeek(d) {
 function tm(t){const[h,m]=t.split(":").map(Number);return h*60+m;}
 
 function gs(store){
-  const now=new Date(),d=now.getDay(),nm=now.getHours()*60+now.getMinutes();
+  const now=new Date(),d=(window._forceDay!==undefined?window._forceDay:now.getDay()),nm=now.getHours()*60+now.getMinutes();
   if(!store.h) return {s:"unknown",l:"OKÄND",str:"–",nxt:null,closing:false};
   if(store.h==="varies") return {s:"varies",l:"VARIERAR",str:"Eventbaserat",nxt:null,closing:false};
   if(typeof store.h==="string"&&store.h.startsWith("biweekly-even-thu")){
@@ -534,13 +597,13 @@ const homeMarker=L.marker([59.352982,17.982170],{
 }).bindPopup('<div class="pi"><div class="pn">DIN POSITION</div><div class="pc">📍 HEMMALÄGE</div></div>',{className:"cpop"}).addTo(map);
 
 // FILTER STATE
-let aS="all", aCats=new Set(), sQ="";
+let aS="all", aCats=new Set();
 
 function visible(s,i){
   if(aS==="open"&&i.s!=="open"&&i.s!=="soon") return false;
   if(aS==="closed"&&i.s!=="closed"&&i.s!=="unknown") return false;
   if(aCats.size>0&&!aCats.has(s.c)) return false;
-  if(sQ&&!s.n.toLowerCase().includes(sQ)&&!s.c.toLowerCase().includes(sQ)) return false;
+  if(""&&!s.n.toLowerCase().includes("")&&!s.c.toLowerCase().includes("")) return false;
   return true;
 }
 
@@ -623,6 +686,27 @@ cg.on("clusterclick", function(e){
   });
   L.DomEvent.stopPropagation(e);
 });
+
+// ── Swedish public holidays ──────────────────────────────
+const _hdc={};
+async function isRedDay(date){
+  const y=date.getFullYear(),mo=date.getMonth()+1,d=date.getDate();
+  const k=`${y}-${mo}-${d}`;
+  if(_hdc[k]!==undefined)return _hdc[k];
+  try{
+    const r=await fetch(`https://sholiday.faboul.se/dagar/v2.1/${y}/${mo}/${d}`);
+    const j=await r.json();
+    const v=!!(j.dagar&&j.dagar[0]&&j.dagar[0]['är helgdag']==='Ja');
+    return(_hdc[k]=v);
+  }catch(e){return(_hdc[k]=false);}
+}
+(async()=>{
+  if(await isRedDay(new Date())){
+    window._forceDay=0;
+    rebuild();
+  }
+})();
+
 rebuild();
 map.on("zoomend",()=>{const z=map.getZoom();MKS.forEach(({s,m,i})=>{if(!cg.hasLayer(m))return;m.setIcon(mkIcon(s,i,z));});});
 setInterval(rebuild,60000);
@@ -844,7 +928,7 @@ async function loadDepartures(stop) {
 function tick(){document.getElementById("db").textContent=DSV[new Date().getDay()].toUpperCase()+" "+new Date().toLocaleTimeString("sv-SE",{hour:"2-digit",minute:"2-digit"});}
 tick();setInterval(tick,10000);
 function updateGsNotis(){
-  const now=new Date(),d=now.getDay(),nm=now.getHours()*60+now.getMinutes();
+  const now=new Date(),d=(window._forceDay!==undefined?window._forceDay:now.getDay()),nm=now.getHours()*60+now.getMinutes();
   function isoWk(dt){const d2=new Date(Date.UTC(dt.getFullYear(),dt.getMonth(),dt.getDate()));d2.setUTCDate(d2.getUTCDate()+4-(d2.getUTCDay()||7));const y=new Date(Date.UTC(d2.getUTCFullYear(),0,1));return Math.ceil((((d2-y)/86400000)+1)/7);}
   const el=document.getElementById('gsNotis');
   for(let i=0;i<=7;i++){
@@ -882,21 +966,6 @@ document.querySelectorAll("[data-cat]").forEach(b=>{
     else{aCats.add(k);b.classList.add("active");}
     rebuild();
   });
-});
-
-// SEARCH
-document.getElementById("si").addEventListener("input",e=>{sQ=e.target.value.toLowerCase();rebuild();});
-
-// GPS
-document.getElementById("geoBtn").addEventListener("click",function(){
-  if(!navigator.geolocation){alert("GPS ej tillgängligt.");return;}
-  this.textContent="...";
-  navigator.geolocation.getCurrentPosition(pos=>{
-    homeMarker.setLatLng([pos.coords.latitude,pos.coords.longitude]);
-    map.flyTo([pos.coords.latitude,pos.coords.longitude],15,{duration:1.5});
-    this.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> GPS';
-    this.classList.add("active");
-  },()=>{this.textContent="GPS";alert("Kunde inte hämta position.");});
 });
 
 
@@ -943,6 +1012,16 @@ document.getElementById("copyBtn").addEventListener("click",function(){
 
 
 
-</script>
+
+
+
+
+
+
+
+
+
+
+if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}</script>
 </body>
 </html>
