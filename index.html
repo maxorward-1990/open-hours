@@ -85,7 +85,7 @@ header::after{
 .fb-row1::after{content:'';display:block;width:1px;height:16px;background:var(--bh);margin:0 10px;flex-shrink:0;}
 .fl{font-family:var(--fm);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);flex-shrink:0;}
 .fd{width:1px;height:14px;background:var(--bh);flex-shrink:0;margin:0 3px;}
-.pill{
+.pill{display:flex;align-items:center;gap:5px;
   font-family:var(--fu);font-weight:600;font-size:12px;letter-spacing:.07em;text-transform:uppercase;
   padding:3px 11px;background:transparent;border:1px solid var(--bh);color:var(--mu);
   cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all var(--ez);
@@ -124,7 +124,7 @@ header::after{
 .mk.open .mk-dot::before{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid currentColor;animation:ping 2s ease-out infinite;}
 @keyframes pulse-close{0%,100%{opacity:1;filter:drop-shadow(0 0 3px var(--pc,#ff3c5a)) drop-shadow(0 0 6px var(--pc,#ff3c5a));}50%{opacity:.4;filter:drop-shadow(0 0 8px var(--pc,#ff3c5a)) drop-shadow(0 0 16px var(--pc,#ff3c5a)) drop-shadow(0 0 24px var(--pc,#ff3c5a));}}
 .mk.closing .mk-dot{animation:pulse-close 6s ease-in-out infinite;}
-.mk-lbl{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(6px) scale(.97);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.2,.8,.3,1);display:flex;flex-direction:column;gap:2px;width:300px;background:rgba(12,12,12,.94);border:1px solid var(--lc,#e0e0e0);border-left:3px solid var(--lc,#e0e0e0);padding:4px 8px;pointer-events:auto;cursor:pointer;box-shadow:0 0 10px color-mix(in srgb,var(--lc,#e0e0e0) 30%,transparent);z-index:10;}
+.mk-lbl{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(6px) scale(.97);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.2,.8,.3,1);display:flex;flex-direction:column;gap:2px;width:300px;background:rgba(12,12,12,.94);border:1px solid var(--lc,#e0e0e0);border-left:3px solid var(--lc,#e0e0e0);padding:4px 8px;pointer-events:auto;cursor:pointer;box-shadow:0 0 10px color-mix(in srgb,var(--lc,#e0e0e0) 30%,transparent);z-index:10;}
 .mk.show-label .mk-lbl{opacity:1;transform:translateX(-50%) translateY(0) scale(1);pointer-events:auto;}
 .mk-lbl-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .mk-lbl .ln{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:12px;letter-spacing:.04em;color:#e0f0fa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;}
@@ -255,7 +255,7 @@ header::after{
 #copyBtn.copied{color:var(--cg);border-color:var(--cg);}
 .map-edit-mode .leaflet-container{cursor:crosshair!important;}
 
-.pill[data-cat]::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cc,#e0e0e0);margin-right:5px;vertical-align:middle;box-shadow:0 0 5px var(--cc,#e0e0e0);}
+.pill[data-cat]::before{content:none;}
 .t-refresh{display:flex;align-items:center;justify-content:space-between;padding:5px 14px;border-bottom:1px solid var(--bd);flex-shrink:0;font-family:var(--fm);font-size:10px;color:var(--mu);}
 .t-refresh-time{color:var(--cy);}
 .t-refresh-btn{background:transparent;border:1px solid var(--bd);color:var(--mu);font-family:var(--fm);font-size:10px;padding:2px 8px;cursor:pointer;letter-spacing:.06em;transition:all var(--ez);}
@@ -299,11 +299,11 @@ header::after{
   .fb-row1::after{display:none;}
   .fb-row2{display:flex;flex-wrap:wrap;gap:0;padding:0;width:100%;align-items:center;}
   .fb-row2 #cp{display:flex!important;flex-wrap:wrap;gap:0;width:100%;}
-  .fb-row1 .pill{flex:1;border-radius:0;border-left:none;border-right:none;border-top:none;border-bottom:1px solid var(--bd);text-align:center;justify-content:center;padding:8px 4px;font-size:11px;letter-spacing:.05em;white-space:nowrap;min-height:36px;}
+  .fb-row1 .pill{display:flex;align-items:center;gap:5px;flex:1;border-radius:0;border-left:none;border-right:none;border-top:none;border-bottom:1px solid var(--bd);text-align:center;justify-content:center;padding:8px 4px;font-size:11px;letter-spacing:.05em;white-space:nowrap;min-height:36px;}
   .fb-row1 .pill:first-child{border-left:none;}
-  .fb-row1 .pill+.pill{border-left:1px solid var(--bd);}
-  .fb-row2 .pill{flex:1;border-radius:0;border:none;border-bottom:1px solid var(--bd);border-top:1px solid transparent;text-align:center;justify-content:center;padding:7px 4px;font-size:10px;letter-spacing:.04em;white-space:nowrap;min-height:34px;}
-  .fb-row2 .pill+.pill{border-left:1px solid var(--bd);}
+  .fb-row1 .pill+.pill{display:flex;align-items:center;gap:5px;border-left:1px solid var(--bd);}
+  .fb-row2 .pill{display:flex;align-items:center;gap:5px;flex:1;border-radius:0;border:none;border-bottom:1px solid var(--bd);border-top:1px solid transparent;text-align:center;justify-content:center;padding:7px 4px;font-size:10px;letter-spacing:.04em;white-space:nowrap;min-height:34px;}
+  .fb-row2 .pill+.pill{display:flex;align-items:center;gap:5px;border-left:1px solid var(--bd);}
 
   /* FABs: move up to avoid browser bottom UI bar */
   .fab-group{bottom:calc(16px + env(safe-area-inset-bottom,0px));left:10px;gap:8px;}
@@ -498,10 +498,10 @@ const S = [
 ];
 
 const CAT = {
-  "Livsmedel":        {c:"#00e5a0",e:"🛒"},
-  "Bar & Restaurang": {c:"#ff6b35",e:"🍺"},
-  "Apotek":           {c:"#00aaff",e:"💊"},
-  "Systembolaget":    {c:"#ff0090",e:"🍷"},
+  "Livsmedel":        {c:"#00aaff",e:"🛒"},
+  "Bar & Restaurang": {c:"#ff3333",e:"🍺"},
+  "Apotek":           {c:"#66ff66",e:"💊"},
+  "Systembolaget":    {c:"#00aa44",e:"🍷"},
   "Elektronik":       {c:"#f5d800",e:"🔌"},
   "Butiker":          {c:"#b967ff",e:"🛍️"},
   "Övrigt":           {c:"#888888",e:"🗑️"},
@@ -518,7 +518,27 @@ Object.keys(CAT).forEach(k => {
   const b = document.createElement("button");
   b.className="pill"; b.dataset.cat=k;
   b.style.setProperty("--cc", cc(k));
-  b.textContent = k.toUpperCase();
+  const psz=16, ph=8, pr=ph-1, psw=1.5;
+  const pss=`fill:none;stroke:${cc(k)};stroke-width:${psw};stroke-linecap:round;stroke-linejoin:round;`;
+  const psc=psz/24*1.6, pt=`translate(${ph},${ph}) scale(${psc})`;
+  let pshape="";
+  if(k==="Apotek"){
+    const bold=`fill:none;stroke:${cc(k)};stroke-width:${psw};stroke-linecap:round;`;
+    pshape=`<line x1="0" y1="-7" x2="0" y2="7" style="${bold}"/><line x1="-7" y1="0" x2="7" y2="0" style="${bold}"/>`;
+  } else if(k==="Bar & Restaurang"){
+    pshape=`<line x1="-6" y1="-8" x2="-6" y2="-3" style="${pss}"/><line x1="-4" y1="-8" x2="-4" y2="-3" style="${pss}"/><line x1="-2" y1="-8" x2="-2" y2="-3" style="${pss}"/><path d="M-6,-3 Q-4,-1 -4,0 L-4,8" style="${pss}"/><path d="M1,-8 L7,-8 L4,0 L4,7 M2,7 L6,7" style="${pss}"/>`;
+  } else if(k==="Systembolaget"){
+    pshape=`<path d="M-6,-7 Q-6,2 0,3 Q6,2 6,-7 Z M0,3 L0,7 M-3,7 L3,7" style="${pss}"/>`;
+  } else if(k==="Elektronik"){
+    pshape=`<rect x="-7" y="-7" width="14" height="10" rx="1" style="${pss}"/><line x1="0" y1="3" x2="0" y2="7" style="${pss}"/><line x1="-3" y1="7" x2="3" y2="7" style="${pss}"/>`;
+  } else if(k==="Livsmedel"){
+    pshape=`<path d="M-7,0 Q-7,7 0,7 Q7,7 7,0 L6,-1 L-6,-1 Z" style="${pss}"/><path d="M-4,-1 Q-4,-7 0,-7 Q4,-7 4,-1" style="${pss}"/>`;
+  } else if(k==="Butiker"){
+    pshape=`<path d="M-5,-2 L-6,7 L6,7 L5,-2 Z" style="${pss}"/><path d="M-3,-2 C-3,-7 0,-7 3,-7 C3,-7 3,-2 3,-2" style="${pss}"/>`;
+  } else {
+    pshape=`<circle cx="0" cy="0" r="${pr}" fill="none" stroke="${cc(k)}" stroke-width="${psw}"/>`;
+  }
+  b.innerHTML=`<svg width="${psz}" height="${psz}" viewBox="0 0 ${psz} ${psz}" style="overflow:visible;vertical-align:middle;flex-shrink:0;"><g transform="${pt}">${pshape}</g></svg><span>${k.toUpperCase()}</span>`;
   cpEl.appendChild(b);
 });
 
@@ -584,7 +604,7 @@ function popHtml(s,inf){
   const nav=`https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=walking`;
   return `<div class="pi" style="--pi-cat:${catCol}">
     <div class="pn" style="color:${catCol}">${s.n.toUpperCase()}</div>
-    <div class="pc" style="color:${catCol}">${ce(s.c)} ${s.c.toUpperCase()}</div>
+    <div class="pc" style="color:${catCol}">${s.c.toUpperCase()}</div>
     <div class="pdv" style="background:linear-gradient(90deg,${catCol},transparent)"></div>
     <div class="pr"><span class="ps ${inf.s}">${inf.l}</span><span class="ph">${inf.str}</span></div>
     ${nxtL}<div class="pa">${s.a}</div>
@@ -598,6 +618,39 @@ function popHtml(s,inf){
 
 function dotSz(z){return z>=17?28:z>=16?24:z>=15?20:z>=14?17:z>=13?15:13;}
 
+function catShape(cat, sz, col, glowFilter, isClosing){
+  const h=sz/2, r=h-1.5, sw=1.5;
+  const ss=`fill:none;stroke:${col};stroke-width:${sw};stroke-linecap:round;stroke-linejoin:round;filter:${glowFilter};`;
+  const ping=isClosing?`<circle class="mk-ping" cx="${h}" cy="${h}" r="${r}" fill="none" stroke="${col}" stroke-width="1" opacity="0.5"/>`:"";
+  // Scale 30% larger: 1.3 * sz/24
+  const sc=sz/24*2.1;
+  const t=`translate(${h},${h}) scale(${sc})`;
+  let shape="";
+  if(cat==="Apotek"){
+    const ssBold=`fill:none;stroke:${col};stroke-width:${sw};stroke-linecap:round;stroke-linejoin:round;filter:${glowFilter};`;
+    shape=`<g transform="${t}"><line x1="0" y1="-7" x2="0" y2="7" style="${ssBold}"/><line x1="-7" y1="0" x2="7" y2="0" style="${ssBold}"/></g>`;
+  } else if(cat==="Bar & Restaurang"){
+    shape=`<g transform="${t}">
+      <line x1="-6" y1="-8" x2="-6" y2="-3" style="${ss}"/>
+      <line x1="-4" y1="-8" x2="-4" y2="-3" style="${ss}"/>
+      <line x1="-2" y1="-8" x2="-2" y2="-3" style="${ss}"/>
+      <path d="M-6,-3 Q-4,-1 -4,0 L-4,8" style="${ss}"/>
+      <path d="M1,-8 L7,-8 L4,0 L4,7 M2,7 L6,7" style="${ss}"/>
+    </g>`;
+  } else if(cat==="Systembolaget"){
+    shape=`<g transform="${t}"><path d="M-6,-7 Q-6,2 0,3 Q6,2 6,-7 Z M0,3 L0,7 M-3,7 L3,7" style="${ss}"/></g>`;
+  } else if(cat==="Elektronik"){
+    shape=`<g transform="${t}"><rect x="-7" y="-7" width="14" height="10" rx="1" style="${ss}"/><line x1="0" y1="3" x2="0" y2="7" style="${ss}"/><line x1="-3" y1="7" x2="3" y2="7" style="${ss}"/></g>`;
+  } else if(cat==="Livsmedel"){
+    shape=`<g transform="${t}"><path d="M-7,0 Q-7,7 0,7 Q7,7 7,0 L6,-1 L-6,-1 Z" style="${ss}"/><path d="M-4,-1 Q-4,-7 0,-7 Q4,-7 4,-1" style="${ss}"/></g>`;
+  } else if(cat==="Butiker"){
+    shape=`<g transform="${t}"><path d="M-5,-2 L-6,7 L6,7 L5,-2 Z" style="${ss}"/><path d="M-3,-2 C-3,-2 -3,-7 0,-7 C3,-7 3,-2 3,-2" style="${ss}"/></g>`;
+  } else {
+    shape=`<circle cx="${h}" cy="${h}" r="${r}" fill="none" stroke="${col}" stroke-width="${sw}" style="filter:${glowFilter};"/>`;
+  }
+  return ping+shape;
+}
+
 function mkIcon(s,inf,z){
   const catCol=cc(s.c),sz=dotSz(z);
   const bc=inf.s==="closing"?"soon":inf.s;
@@ -606,8 +659,10 @@ function mkIcon(s,inf,z){
     <div class="mk-lbl-top"><span class="ln">${s.n}</span><span class="sbadge ${bc}">${SL_LABELS[inf.s]||inf.s}</span></div>
     ${hrs?`<div class="mk-lbl-hrs">${hrs}</div>`:""}
   </div>`;
+  const glowFilter=inf.s==="open"?`drop-shadow(0 0 4px ${catCol}) drop-shadow(0 0 8px ${catCol})`:(inf.s==="soon"?`drop-shadow(0 0 3px ${catCol})`:"none");
+  const shapes=catShape(s.c,sz,catCol,glowFilter,inf.closing);
   return L.divIcon({
-    html:`<div class="mk${inf.closing?" closing":""}${(inf.s==="open"||inf.s==="soon")?" mk-open":""}" style="--cat-col:${catCol};width:${sz}px;height:${sz}px;opacity:${(inf.s==="closed"||inf.s==="unknown")?0.28:1};transition:opacity .4s ease;">${lbl}<svg class="mk-dot" width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" style="overflow:visible;display:block;">${inf.closing?`<circle class="mk-ping" cx="${sz/2}" cy="${sz/2}" r="${sz/2-1.5}" fill="none" stroke="${catCol}" stroke-width="1" opacity="0.5"/>`:"" }<circle cx="${sz/2}" cy="${sz/2}" r="${sz/2-1.5}" fill="none" stroke="${catCol}" stroke-width="1.5" style="filter:${inf.s==="open"?`drop-shadow(0 0 4px ${catCol}) drop-shadow(0 0 8px ${catCol})`:(inf.s==="soon"?`drop-shadow(0 0 3px ${catCol})`:"none")};"/></svg></div>`,
+    html:`<div class="mk${inf.closing?" closing":""}${(inf.s==="open"||inf.s==="soon")?" mk-open":""}" style="--cat-col:${catCol};width:${sz}px;height:${sz}px;opacity:${(inf.s==="closed"||inf.s==="unknown")?0.28:1};transition:opacity .4s ease;">${lbl}<svg class="mk-dot" width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" style="overflow:visible;display:block;">${shapes}</svg></div>`,
     className:"",iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]
   });
 }
@@ -669,7 +724,7 @@ const MKS=S.map(s=>{
     el.classList.remove("popup-open");
     const lbl=el.querySelector(".mk-lbl");
     if(!lbl) return;
-    if(map.getZoom()>=15){
+    if(map.getZoom()>=15.5){
       // Snap mk-lbl visible instantly, then let CSS take over
       lbl.style.transition="none";
       lbl.style.opacity="1";
@@ -696,7 +751,7 @@ function rebuild(){
       const el=m.getElement();
       if(!el) return;
       const mk=el.querySelector(".mk");
-      if(mk) mk.classList.toggle("show-label",z>=15);
+      if(mk) mk.classList.toggle("show-label",z>=15.5);
     });
   });
 }
@@ -755,7 +810,7 @@ map.on("popupclose",(e)=>{
 });
 map.on("zoomend",()=>{
   const z=map.getZoom();
-  const show=z>=15;
+  const show=z>=15.5;
   MKS.forEach(({m},idx)=>{
     const el=m.getElement();
     if(!el) return;
