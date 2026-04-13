@@ -117,14 +117,14 @@ header::after{
 
 
 /* STORE MARKERS */
-.mk{position:relative;display:inline-block;cursor:pointer;transition:width .35s ease,height .35s ease;}
+.mk{position:relative;display:inline-block;cursor:pointer;transition:width .35s ease,height .35s ease;pointer-events:none;}.mk .mk-dot{pointer-events:auto;cursor:pointer;}
 .mk-dot{display:block;transition:transform .3s ease,width .4s ease,height .4s ease,r .4s ease;transform-origin:center;}
 .mk:hover .mk-dot{transform:scale(1.6);filter:brightness(1.3);}
 @keyframes ping{0%{transform:scale(1);opacity:.6;}100%{transform:scale(2.4);opacity:0;}}
 .mk.open .mk-dot::before{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid currentColor;animation:ping 2s ease-out infinite;}
 @keyframes pulse-close{0%,100%{opacity:1;filter:drop-shadow(0 0 3px var(--pc,#ff3c5a)) drop-shadow(0 0 6px var(--pc,#ff3c5a));}50%{opacity:.4;filter:drop-shadow(0 0 8px var(--pc,#ff3c5a)) drop-shadow(0 0 16px var(--pc,#ff3c5a)) drop-shadow(0 0 24px var(--pc,#ff3c5a));}}
 .mk.closing .mk-dot{animation:pulse-close 6s ease-in-out infinite;}
-.mk-lbl{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(6px) scale(.97);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.2,.8,.3,1);display:flex;flex-direction:column;gap:2px;min-width:160px;max-width:220px;background:rgba(12,12,12,.94);border:1.5px solid var(--lc,#e0e0e0);padding:4px 8px;pointer-events:auto;cursor:pointer;box-shadow:0 0 10px color-mix(in srgb,var(--lc,#e0e0e0) 30%,transparent);z-index:10;}
+.mk-lbl{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(6px) scale(.97);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.2,.8,.3,1);display:flex;flex-direction:column;gap:2px;width:300px;background:rgba(12,12,12,.94);border:1px solid var(--lc,#e0e0e0);border-left:3px solid var(--lc,#e0e0e0);padding:4px 8px;pointer-events:auto;cursor:pointer;box-shadow:0 0 10px color-mix(in srgb,var(--lc,#e0e0e0) 30%,transparent);z-index:10;}
 .mk.show-label .mk-lbl{opacity:1;transform:translateX(-50%) translateY(0) scale(1);pointer-events:auto;}
 .mk-lbl-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .mk-lbl .ln{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:12px;letter-spacing:.04em;color:#e0f0fa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;}
@@ -158,8 +158,9 @@ header::after{
 .transit-mk:hover{transform:scale(1.2);box-shadow:0 0 20px color-mix(in srgb,var(--tc,#e0e0e0) 90%,transparent);}
 
 /* POPUP */
-.cpop .leaflet-popup-content-wrapper{background:rgba(10,10,10,.97)!important;border:1px solid var(--pw-col,#e0e0e0)!important;border-left:3px solid var(--pw-col,#e0e0e0)!important;box-shadow:0 0 20px color-mix(in srgb,var(--pw-col,#e0e0e0) 30%,transparent)!important;border-radius:0!important;color:#b8d4e8!important;padding:0!important;}
-.cpop .leaflet-popup-content-wrapper{animation:popup-expand .28s cubic-bezier(.16,1,.3,1) both;}
+.cpop .leaflet-popup-content-wrapper{opacity:0;transition:none!important;}
+.leaflet-popup-content-wrapper{width:300px!important;background:rgba(10,10,10,.97)!important;border:1px solid var(--pw-col,#e0e0e0)!important;border-left:3px solid var(--pw-col,#e0e0e0)!important;box-shadow:0 0 20px color-mix(in srgb,var(--pw-col,#e0e0e0) 30%,transparent)!important;border-radius:0!important;color:#b8d4e8!important;padding:0!important;}
+.cpop .
 @keyframes popup-expand{
   0%  {opacity:0;transform:translateY(12px) scaleY(0.7);transform-origin:bottom center;}
   70% {opacity:1;transform:translateY(-2px) scaleY(1.01);}
@@ -168,10 +169,10 @@ header::after{
 .cpop .leaflet-popup-tip-container{display:none;}
 .mk.closing .mk-ping{transform-origin:50% 50%;animation:svgPing 5s ease-out infinite;}
 @keyframes svgPing{0%{transform:scale(1);opacity:.5;}100%{transform:scale(2.4);opacity:0;}}
-.leaflet-popup{animation:popupIn .2s cubic-bezier(.2,.8,.3,1);}
-@keyframes popupIn{from{opacity:0;transform:translateY(6px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}
+.leaflet-popup{animation:none!important;}.leaflet-popup-pane{transition:none!important;}.leaflet-fade-anim .leaflet-popup{transition:none!important;}.leaflet-zoom-anim .leaflet-popup{transition:none!important;}
+@keyframes popupIn{from{opacity:0;transform:translateY(-4px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
 @keyframes popupOut{from{opacity:1;transform:translateY(0) scale(1);}to{opacity:0;transform:translateY(4px) scale(.97);}}
-.leaflet-popup.closing{animation:popupOut .18s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;}
+.leaflet-popup.closing{pointer-events:none;}
 .cpop .leaflet-popup-content{margin:0!important;width:auto!important;}
 .pi{padding:14px 18px;min-width:230px;max-width:300px;border-top:2px solid var(--pi-cat,#e0e0e0);box-shadow:0 -3px 14px color-mix(in srgb,var(--pi-cat,#e0e0e0) 35%,transparent);animation:popup-content .3s .05s cubic-bezier(.16,1,.3,1) both;}
 .pn{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;}
@@ -265,7 +266,6 @@ header::after{
 .leaflet-popup-content-wrapper::after{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(224,224,224,.06) 0%,transparent 40%);
-  animation:popup-scan .4s cubic-bezier(.16,1,.3,1) both;
 }
 @keyframes popup-scan{
   from{opacity:0;transform:translateY(-100%);}
@@ -276,8 +276,8 @@ header::after{
   to{opacity:1;transform:translateY(0);}
 }
 
-.leaflet-marker-icon.popup-open .mk-lbl{opacity:0;transition:opacity .15s;}
-.leaflet-marker-icon.popup-open .mk-dot{box-shadow:0 0 0 3px rgba(255,255,255,.15),0 0 12px var(--dot-c,#e0e0e0);}
+.leaflet-marker-icon.popup-open .mk-lbl{opacity:0!important;transition:none!important;}
+.leaflet-marker-icon.popup-open .mk-dot{transform:scale(1.5);}
 
 /* ── MOBILE (≤768px) ─────────────────────────────────────────── */
 /* Desktop: restore #cp */#cp{display:flex;gap:7px;flex-wrap:nowrap;}
@@ -327,7 +327,26 @@ header::after{
   #si{width:70px;}
   .gsnotis{display:none;}
 }
-.leaflet-tile{transition:opacity .2s ease!important;}.leaflet-marker-icon{transition:transform .35s cubic-bezier(.2,.8,.3,1)!important;}.fab:nth-child(1){animation-delay:.1s;}.fab:nth-child(2){animation-delay:.2s;}.fab:nth-child(3){animation-delay:.3s;}.fab:nth-child(4){animation-delay:.4s;}.fab:nth-child(5){animation-delay:.5s;}</style>
+.leaflet-tile{transition:opacity .2s ease!important;}.leaflet-marker-icon{transition:transform .35s cubic-bezier(.2,.8,.3,1)!important;}.leaflet-marker-icon:has(.mk){pointer-events:none!important;}.leaflet-marker-icon:has(.mk) .mk-dot{pointer-events:auto!important;}.leaflet-marker-icon:has(.mk) .mk-lbl{pointer-events:none;}.show-label .mk-lbl{pointer-events:auto!important;}.fab:nth-child(1){animation-delay:.1s;}.fab:nth-child(2){animation-delay:.2s;}.fab:nth-child(3){animation-delay:.3s;}.fab:nth-child(4){animation-delay:.4s;}.fab:nth-child(5){animation-delay:.5s;}
+.leaflet-popup-close-button{
+  width:32px!important;height:32px!important;
+  font-size:22px!important;line-height:32px!important;
+  color:#a8bac8!important;top:6px!important;right:6px!important;
+  padding:0!important;text-align:center!important;
+}
+.leaflet-popup-close-button:hover{color:#fff!important;}
+.leaflet-zoom-animated{transition:none!important;}
+.leaflet-fade-anim .leaflet-popup{transition:none!important;opacity:1!important;}
+/* Kill ALL Leaflet popup animations - we handle manually */
+.leaflet-popup, .leaflet-popup-content-wrapper, .leaflet-popup-tip,
+.leaflet-popup-pane .leaflet-popup {
+  animation: none !important;
+  transition: none !important;
+}
+
+.leaflet-popup-pane{will-change:unset!important;}
+.leaflet-popup-content-wrapper.pw-visible{opacity:1!important;transition:opacity .18s ease,transform .18s cubic-bezier(.2,.8,.3,1)!important;}
+</style>
 
 
 
@@ -375,11 +394,7 @@ header::after{
     <button class="pill" data-status="open">Öppet nu</button>
     <button class="pill" data-status="closed">Stängt</button>
   </div>
-  <div class="fb-row2">
-    <div id="cp">
-      <button class="pill" id="transitToggleBtn" style="--cc:#e0e0e0">🚇 KOLLEKTIVTRAFIK</button>
-    </div>
-  </div>
+  <div class="fb-row2"><div id="cp"></div></div>
 </div>
 
 <div id="mapwrap">
@@ -504,7 +519,7 @@ Object.keys(CAT).forEach(k => {
   b.className="pill"; b.dataset.cat=k;
   b.style.setProperty("--cc", cc(k));
   b.textContent = k.toUpperCase();
-  cpEl.insertBefore(b, document.getElementById("transitToggleBtn"));
+  cpEl.appendChild(b);
 });
 
 function isoWeek(d) {
@@ -581,7 +596,7 @@ function popHtml(s,inf){
   </div>`;
 }
 
-function dotSz(z){return z>=17?18:z>=16?15:z>=15?13:z>=14?11:z>=13?10:9;}
+function dotSz(z){return z>=17?28:z>=16?24:z>=15?20:z>=14?17:z>=13?15:13;}
 
 function mkIcon(s,inf,z){
   const catCol=cc(s.c),sz=dotSz(z);
@@ -599,7 +614,8 @@ function mkIcon(s,inf,z){
 
 
 // MAP
-const map=L.map("map",{center:[59.352982,17.982170],zoom:13,zoomControl:true,zoomAnimation:true,zoomSnap:0.25,zoomDelta:0.5,wheelPxPerZoomLevel:120});
+
+const map=L.map("map",{center:[59.352982,17.982170],zoom:13,zoomControl:true,zoomAnimation:true,fadeAnimation:false,zoomSnap:0.25,zoomDelta:0.5,wheelPxPerZoomLevel:120});
 L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
   {attribution:"© OpenStreetMap © CARTO",subdomains:"abcd",maxZoom:19}).addTo(map);
 map.zoomControl.setPosition("bottomright");
@@ -628,21 +644,38 @@ const cg=L.layerGroup().addTo(map);
 const MKS=S.map(s=>{
   const i=gs(s);
   const m=L.marker([s.lat,s.lng],{icon:mkIcon(s,i,map.getZoom()),draggable:false,_status:i.s});
-  m.bindPopup(L.popup({className:"cpop",maxWidth:300,offset:[0,-6],autoPan:false}).setContent(popHtml(s,i)));
+  m.bindPopup(L.popup({className:"cpop",maxWidth:300,offset:[0,-6],autoPan:true,autoPanPadding:[20,20],autoPanPaddingTopLeft:[20,80]}).setContent(popHtml(s,i)));
   m.on("popupopen",()=>{
-    const pw=m.getPopup()?.getElement()?.querySelector(".leaflet-popup-content-wrapper");
-    if(pw){
-      pw.style.setProperty("--pw-col",cc(s.c));
-      pw.style.animation="none";
-      pw.offsetHeight;
-      pw.style.animation="";
-    }
     const el=m.getElement();
     if(el) el.classList.add("popup-open");
+    setTimeout(()=>{
+      const popupEl=m.getPopup()?.getElement();
+      const pw=popupEl?.querySelector(".leaflet-popup-content-wrapper");
+      if(!pw) return;
+      pw.style.setProperty("--pw-col",cc(s.c));
+      pw.style.transition="none";
+      pw.style.opacity="0";
+      pw.style.transform="translateY(-4px) scale(.97)";
+      requestAnimationFrame(()=>{
+          pw.style.transition="opacity .18s ease,transform .18s cubic-bezier(.2,.8,.3,1)";
+        pw.style.opacity="1";
+        pw.style.transform="translateY(0) scale(1)";
+      });
+    },0);
   });
   m.on("popupclose",()=>{
     const el=m.getElement();
-    if(el) el.classList.remove("popup-open");
+    if(!el) return;
+    el.classList.remove("popup-open");
+    // Snap mk-lbl back instantly only if zoom shows labels
+    if(map.getZoom()>=15){
+      const lbl=el.querySelector(".mk-lbl");
+      if(lbl){ lbl.style.transition="none"; lbl.style.opacity="1"; }
+      requestAnimationFrame(()=>{
+        const lbl2=el.querySelector(".mk-lbl");
+        if(lbl2) lbl2.style.transition="";
+      });
+    }
   });
   m.on("dragend",()=>{const ll=m.getLatLng();s.lat=+ll.lat.toFixed(6);s.lng=+ll.lng.toFixed(6);logEdit(s);});
   return {s,m,i};
@@ -709,9 +742,13 @@ async function isRedDay(date){
 })();
 
 rebuild();
-map.on("popupclose",(e)=>{
+map.on("popupopen",(e)=>{
   const el=e.popup.getElement();
-  if(el) el.classList.add("closing");
+  if(el) el.classList.remove("closing");
+});
+map.on("popupclose",(e)=>{
+  const pw=e.popup.getElement()?.querySelector(".leaflet-popup-content-wrapper");
+  if(pw){ pw.classList.remove("pw-visible"); pw.style.transform="none"; }
 });
 map.on("zoomend",()=>{
   const z=map.getZoom();
@@ -789,6 +826,11 @@ STOPS.forEach(st=>{
     _lastStop=st; loadDepartures(st);
   });
   tm2.addTo(map);
+  // Hide immediately after Leaflet adds element to DOM
+  tm2.once("add",()=>{
+    const el=tm2.getElement();
+    if(el) el.style.display="none";
+  });
 });
 
 // TRANSIT PANEL
@@ -796,7 +838,6 @@ let transitOpen=false;
 const transitPanel=document.getElementById("transitPanel");
 const transitContent=document.getElementById("transitContent");
 const transitBtn=document.getElementById("transitBtn");
-const transitToggleBtn=document.getElementById("transitToggleBtn");
 
 function transitModeIcon(m){return m==="METRO"?"🚇":m==="TRAIN"?"🚆":"🚌";}
 
@@ -819,33 +860,29 @@ function openTransit(){
   transitOpen=true;
   transitBtn.classList.add("transit-active");
   transitPanel.classList.add("open");
-  transitToggleBtn.classList.add("active");
 }
 function closeTransit(){
   transitOpen=false;
   transitBtn.classList.remove("transit-active");
   transitPanel.classList.remove("open");
-  transitToggleBtn.classList.remove("active");
 }
 
 // Transit pill: toggle marker visibility only
-let transitMarkersVisible = true;
-transitToggleBtn.addEventListener("click", function() {
-  transitMarkersVisible = !transitMarkersVisible;
-  this.classList.toggle("active", transitMarkersVisible);
-  document.querySelectorAll(".transit-mk").forEach(el => {
-    el.closest(".leaflet-marker-icon").style.display = transitMarkersVisible ? "" : "none";
-  });
-});
+let transitMarkersVisible = false;
 // Transit markers OFF at startup
 transitMarkersVisible = false;
 // Hide all transit markers after map renders
-setTimeout(()=>{
-  document.querySelectorAll(".leaflet-marker-icon").forEach(el=>{
-    if(el.querySelector(".transit-mk")) el.style.display="none";
+document.querySelectorAll(".leaflet-marker-icon").forEach(el=>{
+  if(el.querySelector(".transit-mk")) el.style.display="none";
+});
+transitBtn.addEventListener("click",()=>{
+  transitMarkersVisible=!transitMarkersVisible;
+  document.querySelectorAll(".transit-mk").forEach(el=>{
+    el.closest(".leaflet-marker-icon").style.display=transitMarkersVisible?"":"none";
   });
-},300);
-transitBtn.addEventListener("click",()=>transitOpen?closeTransit():openTransit());
+  if(!transitMarkersVisible&&transitOpen) closeTransit();
+  transitBtn.classList.toggle("transit-active",transitMarkersVisible);
+});
 document.getElementById("transitClose").addEventListener("click",closeTransit);
 
 let _lastStop = null;
