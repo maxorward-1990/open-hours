@@ -667,14 +667,17 @@ const MKS=S.map(s=>{
     const el=m.getElement();
     if(!el) return;
     el.classList.remove("popup-open");
-    // Snap mk-lbl back instantly only if zoom shows labels
+    const lbl=el.querySelector(".mk-lbl");
+    if(!lbl) return;
     if(map.getZoom()>=15){
-      const lbl=el.querySelector(".mk-lbl");
-      if(lbl){ lbl.style.transition="none"; lbl.style.opacity="1"; }
-      requestAnimationFrame(()=>{
-        const lbl2=el.querySelector(".mk-lbl");
-        if(lbl2) lbl2.style.transition="";
-      });
+      // Snap mk-lbl visible instantly, then let CSS take over
+      lbl.style.transition="none";
+      lbl.style.opacity="1";
+      requestAnimationFrame(()=>{ lbl.style.transition=""; lbl.style.opacity=""; });
+    } else {
+      // Below zoom threshold — clear any inline opacity so CSS hides it
+      lbl.style.transition="";
+      lbl.style.opacity="";
     }
   });
   m.on("dragend",()=>{const ll=m.getLatLng();s.lat=+ll.lat.toFixed(6);s.lng=+ll.lng.toFixed(6);logEdit(s);});
