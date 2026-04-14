@@ -21,7 +21,7 @@
   --bd:rgba(255,255,255,.10);--bh:rgba(255,255,255,.25);
   --cy:#e0e0e0;--cn:#e0e0e0;--cr:#ff3c5a;--cg:#39ff6e;
   --tx:#c8c8c8;--mu:#555555;
-  --gc:0 0 8px rgba(224,224,224,.7),0 0 20px rgba(224,224,224,.25);
+  --gc:0 0 6px rgba(224,224,224,.5);
   --gy:0 0 8px rgba(224,224,224,.4);
   --ez:150ms cubic-bezier(.16,1,.3,1);
 }
@@ -117,7 +117,7 @@ header::after{
 
 
 /* STORE MARKERS */
-.mk{position:relative;display:inline-block;cursor:pointer;transition:width .35s ease,height .35s ease;pointer-events:none;}.mk .mk-dot{pointer-events:auto;cursor:pointer;}
+.mk{position:relative;display:inline-block;cursor:pointer;transition:width .35s ease,height .35s ease;pointer-events:none;will-change:transform;contain:layout style;}.mk .mk-dot{pointer-events:auto;cursor:pointer;}
 .mk-dot{display:block;transition:transform .3s ease,width .4s ease,height .4s ease,r .4s ease;transform-origin:center;}
 .mk:hover .mk-dot{transform:scale(1.6);filter:brightness(1.3);}
 @keyframes ping{0%{transform:scale(1);opacity:.6;}100%{transform:scale(2.4);opacity:0;}}
@@ -327,7 +327,8 @@ header::after{
   #si{width:70px;}
   .gsnotis{display:none;}
 }
-.leaflet-tile{transition:opacity .2s ease!important;}.leaflet-marker-icon{transition:transform .35s cubic-bezier(.2,.8,.3,1)!important;}.leaflet-marker-icon:has(.mk){pointer-events:none!important;}.leaflet-marker-icon:has(.mk) .mk-dot{pointer-events:auto!important;}.leaflet-marker-icon:has(.mk) .mk-lbl{pointer-events:none;}.show-label .mk-lbl{pointer-events:auto!important;}.fab:nth-child(1){animation-delay:.1s;}.fab:nth-child(2){animation-delay:.2s;}.fab:nth-child(3){animation-delay:.3s;}.fab:nth-child(4){animation-delay:.4s;}.fab:nth-child(5){animation-delay:.5s;}
+.leaflet-tile{transition:opacity .2s ease!important;}.leaflet-zoom-animated{transition-timing-function:ease-out;transition-duration:200ms;}
+.leaflet-marker-icon{transition:transform .35s cubic-bezier(.2,.8,.3,1)!important;}.leaflet-marker-icon:has(.mk){pointer-events:none!important;}.leaflet-marker-icon:has(.mk) .mk-dot{pointer-events:auto!important;}.leaflet-marker-icon:has(.mk) .mk-lbl{pointer-events:none;}.show-label .mk-lbl{pointer-events:auto!important;}.fab:nth-child(1){animation-delay:.1s;}.fab:nth-child(2){animation-delay:.2s;}.fab:nth-child(3){animation-delay:.3s;}.fab:nth-child(4){animation-delay:.4s;}.fab:nth-child(5){animation-delay:.5s;}
 .leaflet-popup-close-button{
   width:32px!important;height:32px!important;
   font-size:22px!important;line-height:32px!important;
@@ -346,6 +347,15 @@ header::after{
 
 .leaflet-popup-pane{will-change:unset!important;}
 .leaflet-popup-content-wrapper.pw-visible{opacity:1!important;transition:opacity .18s ease,transform .18s cubic-bezier(.2,.8,.3,1)!important;}
+
+/* GPU compositing for marker + overlay panes */
+.leaflet-marker-pane,.leaflet-overlay-pane{transform:translateZ(0);backface-visibility:hidden;}
+/* Suspend expensive effects while zooming */
+.map-zooming .mk svg *{filter:none!important;}
+.map-zooming .mk-ping{animation-play-state:paused!important;}
+.map-zooming .mk.open .mk-dot::before{animation-play-state:paused!important;}
+.map-zooming .mk-lbl{display:none!important;}
+
 </style>
 
 
@@ -659,7 +669,7 @@ function mkIcon(s,inf,z){
     <div class="mk-lbl-top"><span class="ln">${s.n}</span><span class="sbadge ${bc}">${SL_LABELS[inf.s]||inf.s}</span></div>
     ${hrs?`<div class="mk-lbl-hrs">${hrs}</div>`:""}
   </div>`;
-  const glowFilter=inf.s==="open"?`drop-shadow(0 0 4px ${catCol}) drop-shadow(0 0 8px ${catCol})`:(inf.s==="soon"?`drop-shadow(0 0 3px ${catCol})`:"none");
+  const glowFilter=inf.s==="open"?`drop-shadow(0 0 5px ${catCol})`:(inf.s==="soon"?`drop-shadow(0 0 3px ${catCol})`:"none");
   const shapes=catShape(s.c,sz,catCol,glowFilter,inf.closing);
   return L.divIcon({
     html:`<div class="mk${inf.closing?" closing":""}${(inf.s==="open"||inf.s==="soon")?" mk-open":""}" style="--cat-col:${catCol};width:${sz}px;height:${sz}px;opacity:${(inf.s==="closed"||inf.s==="unknown")?0.28:1};transition:opacity .4s ease;">${lbl}<svg class="mk-dot" width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" style="overflow:visible;display:block;">${shapes}</svg></div>`,
@@ -670,7 +680,7 @@ function mkIcon(s,inf,z){
 
 // MAP
 
-const map=L.map("map",{center:[59.352982,17.982170],zoom:13,zoomControl:true,zoomAnimation:true,fadeAnimation:false,zoomSnap:0.25,zoomDelta:0.5,wheelPxPerZoomLevel:120});
+const map=L.map("map",{center:[59.352982,17.982170],zoom:13,zoomControl:true,zoomAnimation:true,fadeAnimation:false,zoomSnap:0.1,zoomDelta:0.5,wheelPxPerZoomLevel:120,scrollWheelZoom:false});
 L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
   {attribution:"© OpenStreetMap © CARTO",subdomains:"abcd",maxZoom:19}).addTo(map);
 map.zoomControl.setPosition("bottomright");
@@ -1134,6 +1144,29 @@ document.getElementById("copyBtn").addEventListener("click",function(){
 
 
 
-if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}</script>
+if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+/* Smooth wheel zoom */
+(function(){
+  var _t=map.getZoom(),_r=null,EASE=0.12;
+  function tick(){var cur=map.getZoom(),d=_t-cur;if(Math.abs(d)<0.001){map.setZoom(_t,{animate:false});_r=null;return;}map.setZoom(cur+d*EASE,{animate:false});_r=requestAnimationFrame(tick);}
+  map.getContainer().addEventListener('wheel',function(e){
+    e.preventDefault();
+    var d=e.deltaY;if(e.deltaMode===1)d*=20;if(e.deltaMode===2)d*=300;
+    _t=Math.max(map.getMinZoom(),Math.min(map.getMaxZoom(),_t-d/200));
+    if(!_r)_r=requestAnimationFrame(tick);
+  },{passive:false});
+})();
+
+/* Suspend renders during zoom for performance */
+(function(){
+  var timer=null,con=map.getContainer();
+  function start(){con.classList.add('map-zooming');}
+  function end(){if(timer)clearTimeout(timer);timer=setTimeout(function(){con.classList.remove('map-zooming');},120);}
+  map.on('zoomstart',start);
+  map.on('zoomend',end);
+  con.addEventListener('wheel',function(){start();end();},{passive:true,capture:true});
+})();
+
+</script>
 </body>
 </html>
