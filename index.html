@@ -681,8 +681,24 @@ function mkIcon(s,inf,z){
 // MAP
 
 const map=L.map("map",{center:[59.352982,17.982170],zoom:13,zoomControl:true,zoomAnimation:true,fadeAnimation:false,zoomSnap:0.1,zoomDelta:0.5,wheelPxPerZoomLevel:120,scrollWheelZoom:false});
-L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-  {attribution:"© OpenStreetMap © CARTO",subdomains:"abcd",maxZoom:19}).addTo(map);
+/* TILES: CARTO kräver numera API-nyckel. Lägg din gratisnyckel (carto.com/basemaps/apikey) här för CARTO dark.
+   Lämnas den tom används Esri Dark Gray (ingen nyckel). */
+const CARTO_KEY="";
+const TILES_ESRI={url:"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+  opt:{attribution:"Tiles © Esri — © OpenStreetMap contributors",maxNativeZoom:16,maxZoom:19}};
+const TILES_CARTO={url:"https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png?key="+encodeURIComponent(CARTO_KEY),
+  opt:{attribution:"© OpenStreetMap © CARTO",maxZoom:19}};
+let tileCfg=CARTO_KEY?TILES_CARTO:TILES_ESRI;
+let tileLayer=L.tileLayer(tileCfg.url,tileCfg.opt).addTo(map);
+let tileErrors=0;
+tileLayer.on("tileload",()=>{tileErrors=0;});
+tileLayer.on("tileerror",()=>{
+  if(++tileErrors===8&&tileCfg!==TILES_ESRI){
+    console.warn("Kartbrickor misslyckas – byter till Esri Dark Gray");
+    map.removeLayer(tileLayer);tileCfg=TILES_ESRI;
+    tileLayer=L.tileLayer(tileCfg.url,tileCfg.opt).addTo(map);tileLayer.bringToBack();tileErrors=0;
+  }else if(tileErrors===8){console.warn("Kartbrickor misslyckas – kontrollera nätverk/tile-källa");}
+});
 map.zoomControl.setPosition("bottomright");
 
 // HOME MARKER
