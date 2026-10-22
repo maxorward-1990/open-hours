@@ -356,6 +356,8 @@ header::after{
 .map-zooming .mk.open .mk-dot::before{animation-play-state:paused!important;}
 .map-zooming .mk-lbl{display:none!important;}
 
+
+#map,.leaflet-container{background:#0b0b0b!important;}
 </style>
 
 
@@ -684,10 +686,12 @@ const map=L.map("map",{center:[59.352982,17.982170],zoom:13,zoomControl:true,zoo
 /* TILES: CARTO kräver numera API-nyckel. Lägg din gratisnyckel (carto.com/basemaps/apikey) här för CARTO dark.
    Lämnas den tom används Esri Dark Gray (ingen nyckel). */
 const CARTO_KEY="";
+/* TILE_DARKNESS: 1 = originalets grå, lägre = svartare (0.5–0.7 rekommenderas) */
+const TILE_DARKNESS=0.55;
 const TILES_ESRI={url:"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-  opt:{attribution:"Tiles © Esri — © OpenStreetMap contributors",maxNativeZoom:16,maxZoom:19}};
+  opt:{attribution:"Tiles © Esri — © OpenStreetMap contributors",maxNativeZoom:16,maxZoom:19,opacity:TILE_DARKNESS,keepBuffer:3}};
 const TILES_CARTO={url:"https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png?key="+encodeURIComponent(CARTO_KEY),
-  opt:{attribution:"© OpenStreetMap © CARTO",maxZoom:19}};
+  opt:{attribution:"© OpenStreetMap © CARTO",maxZoom:19,keepBuffer:3}};
 let tileCfg=CARTO_KEY?TILES_CARTO:TILES_ESRI;
 let tileLayer=L.tileLayer(tileCfg.url,tileCfg.opt).addTo(map);
 let tileErrors=0;
@@ -1161,15 +1165,33 @@ document.getElementById("copyBtn").addEventListener("click",function(){
 
 
 if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
-/* Smooth wheel zoom */
+/* Smooth wheel zoom v3: använder samma interna väg som Leaflets pinch-zoom (_move med pinch:true),
+   så befintliga brickor bara skalas under zoomen och nya hämtas först när zoomen stannat – inga svarta rutor. */
 (function(){
-  var _t=map.getZoom(),_r=null,EASE=0.12;
-  function tick(){var cur=map.getZoom(),d=_t-cur;if(Math.abs(d)<0.001){map.setZoom(_t,{animate:false});_r=null;return;}map.setZoom(cur+d*EASE,{animate:false});_r=requestAnimationFrame(tick);}
+  var EASE=0.2, SENS=200;
+  var target=map.getZoom(), raf=null, active=false, anchor=null;
+  var canFast=typeof map._move==="function"&&typeof map._moveStart==="function"&&typeof map._moveEnd==="function";
+  function clamp(z){return Math.max(map.getMinZoom(),Math.min(map.getMaxZoom(),z));}
+  function tick(){
+    var cur=map.getZoom(), d=target-cur, done=Math.abs(d)<0.005;
+    var z=done?target:cur+d*EASE;
+    var scale=map.getZoomScale(z,cur);
+    var half=map.getSize().divideBy(2);
+    var off=anchor.subtract(half).multiplyBy(1-1/scale);
+    var c=map.containerPointToLatLng(half.add(off));
+    map._move(c,z,{pinch:true});
+    if(done){raf=null;active=false;map._moveEnd(true);return;}
+    raf=requestAnimationFrame(tick);
+  }
   map.getContainer().addEventListener('wheel',function(e){
     e.preventDefault();
-    var d=e.deltaY;if(e.deltaMode===1)d*=20;if(e.deltaMode===2)d*=300;
-    _t=Math.max(map.getMinZoom(),Math.min(map.getMaxZoom(),_t-d/200));
-    if(!_r)_r=requestAnimationFrame(tick);
+    var d=e.deltaY; if(e.deltaMode===1)d*=20; if(e.deltaMode===2)d*=300;
+    anchor=map.mouseEventToContainerPoint(e);
+    if(!canFast){ map.setZoomAround(anchor,clamp(map.getZoom()-d/SENS),{animate:false}); return; }
+    if(!raf) target=map.getZoom();
+    target=clamp(target-d/SENS);
+    if(!active){active=true;map._moveStart(true,false);}
+    if(!raf) raf=requestAnimationFrame(tick);
   },{passive:false});
 })();
 
@@ -1180,7 +1202,7 @@ if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.se
   function end(){if(timer)clearTimeout(timer);timer=setTimeout(function(){con.classList.remove('map-zooming');},120);}
   map.on('zoomstart',start);
   map.on('zoomend',end);
-  con.addEventListener('wheel',function(){start();end();},{passive:true,capture:true});
+  
 })();
 
 </script>
