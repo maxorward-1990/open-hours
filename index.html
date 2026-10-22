@@ -357,7 +357,7 @@ header::after{
 .map-zooming .mk-lbl{display:none!important;}
 
 
-#map,.leaflet-container{background:#0b0b0b!important;}
+#map,.leaflet-container{background:#060606!important;}
 </style>
 
 
@@ -686,8 +686,8 @@ const map=L.map("map",{center:[59.352982,17.982170],zoom:13,zoomControl:true,zoo
 /* TILES: CARTO kräver numera API-nyckel. Lägg din gratisnyckel (carto.com/basemaps/apikey) här för CARTO dark.
    Lämnas den tom används Esri Dark Gray (ingen nyckel). */
 const CARTO_KEY="";
-/* TILE_DARKNESS: 1 = originalets grå, lägre = svartare (0.5–0.7 rekommenderas) */
-const TILE_DARKNESS=0.55;
+/* TILE_DARKNESS: 1 = originalets grå, lägre = svartare. 0.35 = mycket mörk, 0.2 = nästan helt svart */
+const TILE_DARKNESS=0.35;
 const TILES_ESRI={url:"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
   opt:{attribution:"Tiles © Esri — © OpenStreetMap contributors",maxNativeZoom:16,maxZoom:19,opacity:TILE_DARKNESS,keepBuffer:3}};
 const TILES_CARTO={url:"https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png?key="+encodeURIComponent(CARTO_KEY),
@@ -1165,8 +1165,7 @@ document.getElementById("copyBtn").addEventListener("click",function(){
 
 
 if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
-/* Smooth wheel zoom v3: använder samma interna väg som Leaflets pinch-zoom (_move med pinch:true),
-   så befintliga brickor bara skalas under zoomen och nya hämtas först när zoomen stannat – inga svarta rutor. */
+/* Smooth wheel zoom v3 (pinch-väg: brickor skalas under zoom, nya hämtas när zoomen stannat) */
 (function(){
   var EASE=0.2, SENS=200;
   var target=map.getZoom(), raf=null, active=false, anchor=null;
